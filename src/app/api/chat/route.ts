@@ -1,11 +1,11 @@
-ï»¿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { parse } from "@/lib/parse";
 import offers from "@/data/offers.json";
 
 const SYS_PROMPT = `Tu es l'assistant d'achat d'une app marocaine (FR/AR dialecte ok).
-- Comprends produit, budget (MAD/DH), ville (Agadir/Casa/Rabat/â€¦).
-- RÃ©ponds court, concret, avec puces si utile.
-- Donne 2â€“4 suggestions adaptÃ©es au budget, sans promettre le stock rÃ©el.
+- Comprends produit, budget (MAD/DH), ville (Agadir/Casa/Rabat/…).
+- Réponds court, concret, avec puces si utile.
+- Donne 2–4 suggestions adaptées au budget, sans promettre le stock réel.
 - Rappelle que les prix sont indicatifs.`;
 
 type HistoryMsg = { role: "user"|"assistant"; text?: string; content?: string };
@@ -61,7 +61,7 @@ export async function POST(req: Request){
   const body = await req.json().catch(()=>({}));
   const text: string = (body?.text ?? "").toString();
   const history: HistoryMsg[] = Array.isArray(body?.history) ? body.history : [];
-  if (!text) return NextResponse.json({ reply: "Dis-moi ce que tu cherches (produit + budget + ville) ðŸ˜Š" });
+  if (!text) return NextResponse.json({ reply: "Dis-moi ce que tu cherches (produit + budget + ville) ??" });
 
   // 1) OLLAMA local
   try {
@@ -69,7 +69,7 @@ export async function POST(req: Request){
     if (r) return NextResponse.json({ reply: r, provider: "ollama" });
   } catch {}
 
-  // 2) OpenAI (si clÃ©)
+  // 2) OpenAI (si clé)
   try {
     const r = await callOpenAI(text, history);
     if (r) return NextResponse.json({ reply: r, provider: "openai" });
@@ -81,8 +81,8 @@ export async function POST(req: Request){
   const parts: string[] = [];
   if (p.product) parts.push(`produit: ${p.product}`);
   if (p.city) parts.push(`ville: ${p.city}`);
-  if (p.budgetMin || p.budgetMax) parts.push(`budget: ${p.budgetMin ?? "â€”"}â€“${p.budgetMax ?? "â€”"} dh`);
-  reply += parts.join(", ") || "ton intention gÃ©nÃ©rale";
+  if (p.budgetMin || p.budgetMax) parts.push(`budget: ${p.budgetMin ?? "—"}–${p.budgetMax ?? "—"} dh`);
+  reply += parts.join(", ") || "ton intention générale";
   if (p.missing.length) reply += `. Il me manque: ${p.missing.join(", ")}.`;
 
   try {

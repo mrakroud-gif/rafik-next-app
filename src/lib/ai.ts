@@ -1,4 +1,4 @@
-﻿export type SimpleMsg = { role: "user" | "assistant"; text: string };
+export type SimpleMsg = { role: "user" | "assistant"; text: string };
 
 export async function chatStream(
   text: string,

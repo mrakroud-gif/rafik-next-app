@@ -1,27 +1,39 @@
-ï»¿"use client";
-import { useAppStore } from "@/lib/store";
+"use client";
+import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useAppStore } from "@/lib/store";
 
 export default function LoginPage(){
+  const { data: session } = useSession();
   const router = useRouter();
-  const login = useAppStore(s => s.login);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const login = useAppStore(s=>s.login);
 
-  function submit(){
-    if (!name || !email) return;
-    login(email, name);
-    router.push("/");
+  function guest(){
+    login("invite@local", "Invité");
+    router.replace("/chat");
   }
 
   return (
-    <main className="container py-6">
-      <h1 className="text-2xl font-bold mb-4">Se connecter</h1>
-      <div className="card p-4 max-w-md">
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Nom" className="rounded-xl border border-gray-300 px-4 py-3 w-full mb-2" />
-        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" className="rounded-xl border border-gray-300 px-4 py-3 w-full mb-3" />
-        <button onClick={submit} className="rounded-xl bg-black text-white px-5 py-3 w-full">Connexion</button>
+    <main className="container mx-auto px-4 py-10">
+      <h1 className="text-3xl font-bold mb-4">Connexion</h1>
+
+      <div className="card p-6 max-w-md space-y-3">
+        {!session?.user ? (
+          <>
+            <button onClick={()=>signIn("google")} className="btn btn-primary w-full py-3 rounded-2xl">Continuer avec Google</button>
+            {/* <button onClick={()=>signIn("apple")} className="btn w-full py-3 rounded-2xl">Continuer avec Apple</button> */}
+            <button onClick={guest} className="btn btn-outline w-full py-3 rounded-2xl">Continuer en invité</button>
+          </>
+        ) : (
+          <>
+            <div className="text-white/80">Connecté en tant que <b>{session.user.name}</b> ({session.user.email})</div>
+            <div className="flex gap-2">
+              <Link href="/chat" className="btn btn-primary rounded-2xl">Aller au chat</Link>
+              <button onClick={()=>signOut()} className="btn btn-outline rounded-2xl">Se déconnecter</button>
+            </div>
+          </>
+        )}
       </div>
     </main>
   );

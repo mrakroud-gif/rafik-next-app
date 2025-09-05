@@ -1,4 +1,4 @@
-﻿import type { Offer } from "@/lib/types";
+import type { Offer } from "@/lib/types";
 
 type Opts = {
   city?: string;
@@ -25,7 +25,7 @@ export function matchOffers(list: Offer[], o: Opts): Offer[] {
     case "price_desc": L.sort((a, b) => b.price - a.price); break;
     case "title_asc": L.sort((a, b) => a.title.localeCompare(b.title)); break;
     default:
-      // simple pertinence : proximité de budget
+      // simple pertinence : proximit� de budget
       if (o.budgetMin != null || o.budgetMax != null) {
         const mid = ( (o.budgetMin ?? 0) + (o.budgetMax ?? 0) ) / 2;
         L.sort((a, b) => Math.abs(a.price - mid) - Math.abs(b.price - mid));

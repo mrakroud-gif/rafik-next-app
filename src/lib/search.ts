@@ -1,9 +1,9 @@
 ﻿export type WebHit = { title: string; url: string; snippet: string };
 export type WebSearchResult = { hits: WebHit[] };
 
-const PROVIDER = process.env.SEARCH_PROVIDER || "tavily";
-const GL = process.env.SEARCH_GL || "ma";
-const HL = process.env.SEARCH_HL || "fr";
+const PROVIDER = process.env.SEARCH_PROVIDER ?? "tavily";
+const GL = process.env.SEARCH_GL ?? "ma";
+const HL = process.env.SEARCH_HL ?? "fr";
 
 async function searchTavily(q: string): Promise<WebSearchResult> {
   const key = process.env.TAVILY_API_KEY;
@@ -18,14 +18,15 @@ async function searchTavily(q: string): Promise<WebSearchResult> {
       max_results: 6,
       include_answer: false,
       include_images: false,
-      include_domains: [],
-    }),
-  });
-  const data = await res.json().catch(() => ({}));
+      include_domains: []
+    })
+  }).catch(() => null);
+  if (!res) return { hits: [] };
+  const data: any = await res.json().catch(() => ({}));
   const hits: WebHit[] = (data.results || []).map((r: any) => ({
-    title: r.title || r.url || "Résultat",
+    title: r.title || r.url || "Result",
     url: r.url,
-    snippet: r.content || r.snippet || "",
+    snippet: r.content || r.snippet || ""
   }));
   return { hits };
 }
@@ -36,14 +37,15 @@ async function searchSerper(q: string): Promise<WebSearchResult> {
   const res = await fetch("https://google.serper.dev/search", {
     method: "POST",
     headers: { "Content-Type": "application/json", "X-API-KEY": key },
-    body: JSON.stringify({ q, gl: GL, hl: HL, num: 8 }),
-  });
-  const data = await res.json().catch(() => ({}));
+    body: JSON.stringify({ q, gl: GL, hl: HL, num: 8 })
+  }).catch(() => null);
+  if (!res) return { hits: [] };
+  const data: any = await res.json().catch(() => ({}));
   const organic = data.organic || [];
   const hits: WebHit[] = organic.slice(0, 6).map((r: any) => ({
-    title: r.title || "Résultat",
+    title: r.title || "Result",
     url: r.link,
-    snippet: r.snippet || r.snipped || "",
+    snippet: r.snippet || r.snipped || ""
   }));
   return { hits };
 }
@@ -51,24 +53,22 @@ async function searchSerper(q: string): Promise<WebSearchResult> {
 export async function searchWeb(q: string): Promise<WebSearchResult> {
   try {
     if (PROVIDER === "serper") return await searchSerper(q);
-    return await searchTavily(q); // défaut: tavily
+    return await searchTavily(q);
   } catch {
     return { hits: [] };
   }
 }
 
 export function summarizeHits(hits: WebHit[]): string {
-  // Texte compact à donner au LLM comme contexte
   return hits.slice(0, 6).map((h, i) => {
     const s = (h.snippet || "").replace(/\s+/g, " ").slice(0, 260);
     return `${i + 1}. ${h.title}\n   ${h.url}\n   ${s}`;
   }).join("\n");
 }
 
-// Détection simple: faut-il le web ?
 export function needsWeb(q: string): boolean {
-  const t = q.toLowerCase();
-  return /prix|mad|dh|acheter|meilleur|promo|disponibilit|202\d|202[0-9]|aujourd|nouveau|sorti|maroc|casablanca|agadir|rabat|tanger/.test(t)
+  const t = (q || "").toLowerCase();
+  return /prix|price|mad|dh|acheter|buy|meilleur|promo|disponibilit|202\d|maroc|casablanca|agadir|rabat|tanger/.test(t)
     || /\d{3,}\s?(dh|mad)/.test(t)
-    || t.split(" ").length <= 3; // requête courte = probablement recherche
+    || t.split(" ").filter(Boolean).length <= 3;
 }

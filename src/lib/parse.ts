@@ -1,4 +1,4 @@
-﻿export function parse(text: string) {
+export function parse(text: string) {
   const s = (text || "").toLowerCase().normalize("NFKD");
   const money = Array.from(s.matchAll(/(\d[\d\s]{2,})(?:\s?dh|\s?mad)?/g)).map(m =>
     Number(m[1].replace(/\s+/g, ""))
@@ -14,7 +14,7 @@
   // heuristique: produit = texte sans montants ni ville
   let product = s.replace(/(\d[\d\s]{2,})(?:\s?dh|\s?mad)?/g, "")
                  .replace(new RegExp((city ?? ''), 'g'), "")
-                 .replace(/entre|à|a|dh|mad|budget|prix|pour|moins|plus|entre|et|de|un|une|le|la|les/gi, " ")
+                 .replace(/entre|�|a|dh|mad|budget|prix|pour|moins|plus|entre|et|de|un|une|le|la|les/gi, " ")
                  .replace(/\s+/g, " ")
                  .trim();
 

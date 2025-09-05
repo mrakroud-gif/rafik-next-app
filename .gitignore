@@ -1,17 +1,20 @@
-﻿node_modules/
+﻿# Build / caches / environnements
+node_modules/
 .next/
 out/
 dist/
 .vercel/
 coverage/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
+data/logs/
+
+# Secrets
 .env.local
 .env
+
+# IDE
+.vscode/
 .DS_Store
 Thumbs.db
-.vscode/
-data/logs/
+
+# Python venv (à ignorer)
+.venv/

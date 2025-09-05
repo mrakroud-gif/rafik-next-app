@@ -1,22 +1,22 @@
-﻿"use client";
+"use client";
 import type { Offer } from "@/lib/types";
 import { useAppStore } from "@/lib/store";
 import { useToast } from "@/lib/toast";
 
 const ICON: Record<string, string> = {
-  mode: "👕",
-  smartphone: "📱",
-  informatique: "💻",
-  electro: "📺",
-  mobilite: "🛴",
-  auto: "🚗",
+  mode: "??",
+  smartphone: "??",
+  informatique: "??",
+  electro: "??",
+  mobilite: "??",
+  auto: "??",
 };
 
 export default function OfferCard({ offer }: { offer: Offer }) {
   const addFav = useAppStore((s) => s.addFavorite);
   const buy = useAppStore((s) => s.addPurchase);
   const { show } = useToast();
-  const ic = ICON[(offer.category || "").toLowerCase()] || "🛍️";
+  const ic = ICON[(offer.category || "").toLowerCase()] || "???";
 
   return (
     <div className="card p-4 flex flex-col justify-between">
@@ -27,21 +27,21 @@ export default function OfferCard({ offer }: { offer: Offer }) {
         </div>
         <div className="mt-2 text-sm text-gray-600 dark:text-gray-300">
           <span className="font-semibold text-black dark:text-white">{offer.price} DH</span>{" "}
-          • {offer.city} • {offer.seller}
+          � {offer.city} � {offer.seller}
         </div>
         {offer.category ? (
-          <div className="mt-1 text-xs badge">Catégorie: {offer.category}</div>
+          <div className="mt-1 text-xs badge">Cat�gorie: {offer.category}</div>
         ) : null}
       </div>
       <div className="mt-4 flex gap-2">
         <button
-          onClick={() => { addFav(offer); show({ type: "success", text: "Ajouté aux favoris." }); }}
+          onClick={() => { addFav(offer); show({ type: "success", text: "Ajout� aux favoris." }); }}
           className="btn btn-outline"
         >
-          ⭐ Favori
+          ? Favori
         </button>
         <button
-          onClick={() => { buy(offer); show({ type: "success", text: "Ajouté à l’historique d’achats." }); }}
+          onClick={() => { buy(offer); show({ type: "success", text: "Ajout� � l�historique d�achats." }); }}
           className="btn btn-primary"
         >
           Acheter

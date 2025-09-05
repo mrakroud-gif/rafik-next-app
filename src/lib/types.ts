@@ -1,4 +1,4 @@
-﻿export type Offer = {
+export type Offer = {
   id: string;
   title: string;
   price: number;

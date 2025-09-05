@@ -1,29 +1,33 @@
-﻿import Link from "next/link";
+﻿"use client";
+import Link from "next/link";
 
 export default function HomePage(){
   return (
-    <section className="container mt-8">
-      <div className="grid md:grid-cols-2 gap-6 items-center">
-        <div className="space-y-4">
-          <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
-            Votre assistant shopping <span className="text-cyan-400">intelligent</span>
-          </h1>
-          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
-            Des suggestions concrètes, adaptées à votre budget et votre ville — en FR/AR.
-          </p>
-          <div className="flex gap-2">
-            <Link href="/chat" className="btn btn-primary">Commencer</Link>
-            <Link href="/favoris" className="btn btn-outline">Mes favoris</Link>
-          </div>
+    <section className="grid place-items-center gap-8 py-16">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative">
+          <div className="absolute inset-0 blur-3xl opacity-30 rounded-full"
+               style={{background:"radial-gradient(60% 60% at 50% 50%, #7c3aed 0%, #22d3ee 100%)"}}/>
+          <img
+            src="/rafik-logo.svg"
+            alt="Rafik"
+            width={120}
+            height={120}
+            className="relative h-28 w-28 rounded-2xl ring-4 ring-white/40 shadow-2xl bg-[#0a0f1e] p-2 animate-pulse"
+          />
         </div>
-        <div className="card p-5">
-          <div className="text-sm text-gray-600 dark:text-gray-300 mb-3">Exemples</div>
-          <ul className="grid gap-2">
-            <li className="btn btn-outline justify-start">TV 55&quot; • 5000 DH • Agadir</li>
-            <li className="btn btn-outline justify-start">Smartphone • 3000 DH • Casa</li>
-            <li className="btn btn-outline justify-start">Laptop • 3500 DH • Rabat</li>
-          </ul>
-        </div>
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+          Bienvenue chez <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-400 to-cyan-300">Rafik</span>
+        </h1>
+        <p className="text-white/70 text-center max-w-xl">
+          Dis-moi le <b>produit</b>, ton <b>budget (DH)</b> et ta <b>ville</b>. Je te propose 2–4 options concrètes.
+        </p>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <Link href="/chat" className="btn btn-primary">Commencer le chat</Link>
+        <Link href="/profil" className="btn btn-outline">Profil</Link>
+        <Link href="/login" className="btn btn-outline">Connexion</Link>
       </div>
     </section>
   );
