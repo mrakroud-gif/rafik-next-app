@@ -1,0 +1,87 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Thème (tokens) ---------- */
+:root{
+  --bg: 246 247 250;
+  --fg: 15 23 42;
+  --muted: 100 116 139;
+  --card: 255 255 255;
+  --ring: 14 165 233;
+  --brand: 56 189 248;
+}
+.dark{
+  --bg: 10 12 18;
+  --fg: 226 232 240;
+  --muted: 148 163 184;
+  --card: 20 23 30;
+  --ring: 56 189 248;
+  --brand: 56 189 248;
+}
+
+html,body{height:100%}
+body{
+  background:
+    radial-gradient(1200px 600px at 80% -200px, rgba(56,189,248,.18), transparent),
+    radial-gradient(1000px 600px at -10% -300px, rgba(124,58,237,.12), transparent),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.85));
+  color: rgb(var(--fg));
+}
+.dark body{
+  background:
+    radial-gradient(1200px 600px at 80% -200px, rgba(56,189,248,.18), transparent),
+    radial-gradient(1000px 600px at -10% -300px, rgba(124,58,237,.12), transparent),
+    linear-gradient(180deg, rgba(9,11,16,.92), rgba(9,11,16,.88));
+}
+*{ outline-color: rgb(var(--ring)); }
+a{ color: rgb(var(--brand)); }
+
+/* Layout helpers */
+.container{ @apply max-w-6xl mx-auto px-4; }
+.shadow-soft{ box-shadow: 0 8px 30px rgba(0,0,0,.08); }
+.card{
+  background: rgba(var(--card), .78);
+  @apply rounded-2xl border border-gray-200/60 dark:border-white/10 backdrop-blur shadow-soft;
+}
+.badge{ @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs bg-gray-100 dark:bg-white/10; }
+
+/* Header glass */
+.header{
+  @apply sticky top-0 z-40 border-b border-gray-200/60 dark:border-white/10;
+  background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.45));
+  backdrop-filter: saturate(140%) blur(10px);
+}
+.dark .header{
+  background: linear-gradient(180deg, rgba(13,16,23,.75), rgba(13,16,23,.55));
+}
+.header-inner{ @apply container flex items-center justify-between py-3; }
+.brand{ @apply flex items-center gap-2 font-semibold; }
+
+/* Boutons / Inputs */
+.btn{ @apply inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm transition;
+      box-shadow: 0 1px 0 rgba(255,255,255,.4) inset; }
+.btn-primary{ @apply bg-black text-white dark:bg-white dark:text-black hover:opacity-90; }
+.btn-outline{ @apply border border-gray-300 dark:border-white/15 hover:bg-gray-50 dark:hover:bg-white/5; }
+.btn-ghost{ @apply hover:bg-black/5 dark:hover:bg-white/5; }
+
+.input, .select, textarea{
+  @apply rounded-xl border border-gray-300 dark:border-white/15 bg-white/80 dark:bg-white/5 px-4 py-3 transition w-full;
+}
+
+/* Bottom nav mobile */
+.bottom-nav{ @apply fixed bottom-3 left-0 right-0 z-40; }
+.bottom-nav .wrap{ @apply container; }
+.bottom-nav .inner{
+  @apply mx-auto max-w-md rounded-2xl border border-gray-200/60 dark:border-white/10 bg-white/80 dark:bg-white/10 backdrop-blur;
+}
+.bottom-nav ul{ @apply grid grid-cols-4 text-xs; }
+.bottom-nav a{ @apply flex flex-col items-center justify-center py-2.5; }
+
+/* Chat bubbles */
+.bubble-user{
+  @apply inline-block max-w-[80%] px-4 py-2.5 rounded-2xl bg-black text-white dark:bg-white dark:text-black;
+}
+.bubble-bot{
+  @apply inline-block max-w-[80%] px-4 py-2.5 rounded-2xl bg-gray-100/90 dark:bg-white/10;
+}

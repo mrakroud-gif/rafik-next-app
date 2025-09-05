@@ -1,0 +1,8 @@
+﻿[
+  {"id":"sku-001","title":"Chemise slim coton","price":399,"city":"Agadir","seller":"Boutique X","url":"#","category":"mode"},
+  {"id":"sku-004","title":"iPhone 13 128Go bon état","price":5200,"city":"Casablanca","seller":"Recond Shop","url":"#","category":"smartphone"},
+  {"id":"sku-007","title":"Ordinateur portable i5 16Go 512Go SSD","price":4800,"city":"Agadir","seller":"PC Market","url":"#","category":"informatique"},
+  {"id":"sku-014","title":"TV 55\" 4K HDR","price":4700,"city":"Agadir","seller":"Vision+","url":"#","category":"electro"},
+  {"id":"sku-020","title":"Trottinette électrique 350W","price":2900,"city":"Agadir","seller":"Mobility Agadir","url":"#","category":"mobilite"},
+  {"id":"sku-011","title":"Hyundai i20 2022 essence — Agadir","price":150000,"city":"Agadir","seller":"Auto KM0","url":"#","category":"auto"}
+]
